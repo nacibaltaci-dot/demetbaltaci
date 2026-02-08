@@ -92,7 +92,7 @@ async function getVideoFullDescription(videoId: string): Promise<string> {
   }
 }
 
-// Get latest video from daily playlist
+// Get latest video from daily playlist (Server-side with cache)
 export async function getLatestDailyVideo(): Promise<VideoInfo> {
   // Default video if API is not available
   const defaultVideo: VideoInfo = {
@@ -133,6 +133,71 @@ export async function getLatestDailyVideo(): Promise<VideoInfo> {
       videoId: videoId,
       title: video.title,
       description: fullDescription || video.description,
+      publishedAt: video.publishedAt,
+      thumbnailUrl:
+        video.thumbnails?.maxres?.url ||
+        video.thumbnails?.high?.url ||
+        video.thumbnails?.medium?.url ||
+        "",
+    };
+  } catch (error) {
+    console.error("Error fetching latest video:", error);
+    return defaultVideo;
+  }
+}
+
+// Client-side: Get latest video from daily playlist (no cache, always fresh)
+export async function getLatestDailyVideoClient(): Promise<VideoInfo> {
+  const defaultVideo: VideoInfo = {
+    videoId: "dQw4w9WgXcQ",
+    title: "Günlük Burç Yorumu",
+    description: "Bugünün burç yorumları için videoyu izleyin.",
+    publishedAt: new Date().toISOString(),
+    thumbnailUrl: "",
+  };
+
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const playlistId = "PL4kKxVfkjqJoha2BBocgSRNp-DhDr2bEg";
+
+  if (!apiKey) {
+    return defaultVideo;
+  }
+
+  try {
+    // Get latest video from playlist
+    const playlistUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&playlistId=${playlistId}&key=${apiKey}`;
+    const response = await fetch(playlistUrl, { cache: "no-store" });
+
+    if (!response.ok) {
+      console.error("YouTube API error:", response.statusText);
+      return defaultVideo;
+    }
+
+    const data = await response.json();
+
+    if (!data.items || data.items.length === 0) {
+      return defaultVideo;
+    }
+
+    const video = data.items[0].snippet;
+    const videoId = video.resourceId.videoId;
+
+    // Get full description
+    const videoUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`;
+    const videoResponse = await fetch(videoUrl, { cache: "no-store" });
+
+    let fullDescription = video.description;
+    if (videoResponse.ok) {
+      const videoData = await videoResponse.json();
+      if (videoData.items && videoData.items.length > 0) {
+        fullDescription = videoData.items[0].snippet.description || video.description;
+      }
+    }
+
+    return {
+      videoId: videoId,
+      title: video.title,
+      description: fullDescription,
       publishedAt: video.publishedAt,
       thumbnailUrl:
         video.thumbnails?.maxres?.url ||

@@ -371,3 +371,10 @@ body {
 .video-timestamp:hover {
   background: #DBEAFE;
 }
+
+/* YouTube Stats Section - Responsive Divider */
+@media (max-width: 640px) {
+  .stat-divider {
+    display: none !important;
+  }
+}

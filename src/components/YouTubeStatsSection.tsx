@@ -108,14 +108,6 @@ export default async function YouTubeStatsSection() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) {
-          .stat-divider {
-            display: none !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

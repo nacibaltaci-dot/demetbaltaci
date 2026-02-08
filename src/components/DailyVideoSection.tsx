@@ -1,6 +1,8 @@
-import { getLatestDailyVideo, formatDateTurkish, truncateDescriptionAtUdemy } from "@/lib/youtube";
+"use client";
 
-// Günlük burç yorumları playlist ID
+import { useState, useEffect } from "react";
+import { getLatestDailyVideoClient, truncateDescriptionAtUdemy, VideoInfo } from "@/lib/youtube";
+
 const DAILY_PLAYLIST_ID = "PL4kKxVfkjqJoha2BBocgSRNp-DhDr2bEg";
 
 // URL'leri, hashtag'leri ve timestamp'leri tıklanabilir linklere dönüştür
@@ -34,11 +36,97 @@ function linkifyText(text: string, videoId: string): string {
   return result;
 }
 
-export default async function DailyVideoSection() {
-  const video = await getLatestDailyVideo();
+// Loading skeleton component
+function VideoSkeleton() {
+  return (
+    <section style={{ padding: "40px 0" }}>
+      <div className="site-container">
+        <div style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          boxShadow: "0 8px 40px rgba(30, 58, 138, 0.12)",
+          overflow: "hidden"
+        }}>
+          {/* Başlık Skeleton */}
+          <div style={{
+            padding: "20px 24px",
+            borderBottom: "1px solid #E2E8F0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{
+                width: "44px",
+                height: "44px",
+                background: "linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%)",
+                borderRadius: "12px",
+                animation: "pulse 2s infinite"
+              }} />
+              <div>
+                <div style={{ width: "150px", height: "18px", backgroundColor: "#E2E8F0", borderRadius: "4px", marginBottom: "6px" }} />
+                <div style={{ width: "120px", height: "14px", backgroundColor: "#F1F5F9", borderRadius: "4px" }} />
+              </div>
+            </div>
+            <div style={{ width: "160px", height: "36px", backgroundColor: "#F1F5F9", borderRadius: "20px" }} />
+          </div>
 
-  // API key yoksa veya varsayılan video ise playlist embed kullan
-  const usePlaylistEmbed = video.videoId === "dQw4w9WgXcQ";
+          {/* Video Skeleton */}
+          <div style={{ padding: "20px" }}>
+            <div style={{
+              position: "relative",
+              paddingBottom: "56.25%",
+              height: 0,
+              overflow: "hidden",
+              borderRadius: "12px",
+              backgroundColor: "#E2E8F0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+              <div style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                textAlign: "center"
+              }}>
+                <div style={{
+                  width: "60px",
+                  height: "60px",
+                  border: "4px solid #CBD5E1",
+                  borderTopColor: "#3B82F6",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite"
+                }} />
+                <p style={{ marginTop: "16px", color: "#64748B", fontSize: "14px" }}>Video yükleniyor...</p>
+              </div>
+            </div>
+          </div>
+
+          <style jsx>{`
+            @keyframes spin {
+              to { transform: translate(-50%, -50%) rotate(360deg); }
+            }
+            @keyframes pulse {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0.7; }
+            }
+          `}</style>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function DailyVideoSection() {
+  const [video, setVideo] = useState<VideoInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Bugünün tarihini formatla
   const today = new Date();
@@ -49,9 +137,35 @@ export default async function DailyVideoSection() {
   const year = today.getFullYear();
   const dayName = dayNames[today.getDay()];
 
+  useEffect(() => {
+    async function fetchVideo() {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const latestVideo = await getLatestDailyVideoClient();
+        setVideo(latestVideo);
+      } catch (err) {
+        console.error("Video fetch error:", err);
+        setError("Video yüklenirken hata oluştu");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchVideo();
+  }, []);
+
+  // Loading state
+  if (isLoading) {
+    return <VideoSkeleton />;
+  }
+
+  // Error state veya video yoksa playlist embed kullan
+  const usePlaylistEmbed = error || !video || video.videoId === "dQw4w9WgXcQ";
+
   // Video açıklamasını Udemy linkinden sonra kes ve linkli HTML'e dönüştür
-  const truncatedDescription = truncateDescriptionAtUdemy(video.description);
-  const descriptionWithLinks = linkifyText(truncatedDescription, video.videoId);
+  const truncatedDescription = video ? truncateDescriptionAtUdemy(video.description) : "";
+  const descriptionWithLinks = video ? linkifyText(truncatedDescription, video.videoId) : "";
 
   // Varsayılan SEO metni (API key yoksa)
   const defaultSeoText = `Demet Baltacı ile ${day} ${month} ${year} günlük burç yorumları. Koç, Boğa, İkizler, Yengeç, Aslan, Başak, Terazi, Akrep, Yay, Oğlak, Kova ve Balık burçlarının günlük yorumları.`;
@@ -158,8 +272,8 @@ export default async function DailyVideoSection() {
                 />
               ) : (
                 <iframe
-                  src={`https://www.youtube.com/embed/${video.videoId}?rel=0`}
-                  title={video.title}
+                  src={`https://www.youtube.com/embed/${video?.videoId}?rel=0`}
+                  title={video?.title || "Günlük Burç Yorumu"}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   style={{

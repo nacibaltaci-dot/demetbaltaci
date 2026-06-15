@@ -46,7 +46,7 @@ const menuItems = [
     ],
   },
   { label: "Eğitimler", href: "/temel-seviye-astroloji-egitim" },
-  { label: "Öğreniyorum", href: "/astroloji-nedir", disabled: true },
+  { label: "Yükselen Burcunu Bul", href: "/yukselen-burc-hesaplama" },
   { label: "SSS", href: "/astroloji-sikca-sorulan-sorular-sss", disabled: true },
   { label: "Hakkımda", href: "/hakkimizda", disabled: true },
   { label: "İletişim", href: "/iletisim" },

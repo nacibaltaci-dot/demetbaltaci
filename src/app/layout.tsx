@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const GA_MEASUREMENT_ID = "G-K0TDWLQM7R";
+const GA_MEASUREMENT_ID = "G-HHLP4FJKTS";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],

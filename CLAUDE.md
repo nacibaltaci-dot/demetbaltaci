@@ -1,38 +1,49 @@
-# Demet Baltacı Astroloji Web Sitesi - Proje Kuralları
+# DEMET BALTACI WEB SİTESİ
 
-## YouTube Video Açıklamaları
+## Proje Bilgileri
+- Domain: www.demetbaltaci.com
+- Diller: Türkçe (ana) + İngilizce (/en/ dizini)
+- Tasarım: Mobil öncelikli, responsive
+- Ana Hedef: SEO - Google'da üst sıralar
 
-- YouTube'dan alınan tüm videoların altında açıklama alanı olacak
-- Açıklama metni Udemy linkinden sonra kesilecek (Udemy linki dahil edilecek)
-- Bu kural `truncateDescriptionAtUdemy()` fonksiyonu ile uygulanır (`src/lib/youtube.ts`)
+## Renk Paleti
+- Primary: #1E3A8A (Koyu Mavi)
+- Primary Light: #3B82F6 (Açık Mavi)
+- Secondary: #D4AF37 (Altın Sarısı)
+- Beyaz: #FFFFFF
+- Açık Arka Plan: #F8FAFC
+- Metin: #1F2937
 
-## Video Açıklama Linkleri
+## Teknik Bilgiler
+- YouTube Kanal ID: UCQPOQyi95rqf9foC4Nr2Cdg
+- Günlük Playlist: PL4kKxVfkjqJoha2BBocgSRNp-DhDr2bEg
+- YouTube API v3 kullanılıyor
+- WhatsApp floating buton tüm sayfalarda
+- Fiyat bilgisi sitede gösterilmez, WhatsApp'a yönlendirilir
 
-Açıklama alanındaki şu öğeler tıklanabilir olacak:
-- URL'ler (http/https)
-- Hashtag'ler (#tag) - YouTube hashtag aramasına yönlendirir
-- Timestamp'ler (0:00) - Videonun o saniyesine yönlendirir
+## Menü Yapısı (8 Ana Menü)
+1. Burç Yorumları (Günlük, Haftalık, Aylık, Yıllık, Yeniay, Dolunay)
+2. Burcunu Seç (12 burç grid)
+3. Danışmanlık (WhatsApp CTA)
+4. Eğitimler (Udemy kursu)
+5. Öğreniyorum (Astroloji Rehberi)
+6. SSS
+7. Hakkımızda
+8. İletişim
 
-## SEO Kuralları
+## Bilinen Sorunlar
+- YouTube API günlük video otomatik güncellenmiyordu (çözülmeli)
+- Site 403 hatası veriyordu (hosting/Cloudflare ayarları kontrol edilmeli)
+- Yazılı içerik yok, her sayfada YouTube video embed + 100-200 kelime SEO açıklama metni olmalı
 
-Her sayfa için şunlar olmalı:
-- **Title**: Hedef keyword + marka (max 60 karakter)
-- **Description**: Hedef keyword ile başlayan açıklama (max 160 karakter)
-- **Keywords**: En çok aranan terimler (`src/lib/seo-config.ts`)
-- **OpenGraph**: Sosyal medya paylaşımları için
-- **Tarih**: Burç yorumlarında güncel tarih kullan
+## Önemli Kurallar
+- Yazılı burç yorumu OLMAYACAK, sadece YouTube video embed
+- Her video altına 100-200 kelime SEO açıklama metni eklenecek
+- URL'lerde Türkçe karakter kullanılmayacak (ö→o, ş→s, ç→c, ü→u, ğ→g, ı→i)
+- Schema markup: Person, FAQPage, VideoObject
+- Hreflang etiketleri TR/EN için
 
-### En Çok Aranan Keyword'ler:
-- Günlük: "günlük burç yorumu", "bugünün burç yorumu"
-- Haftalık: "haftalık burç yorumu", "bu hafta burç yorumları"
-- Aylık: "aylık burç yorumu", "bu ay burç yorumları"
-- Burç: "[burç adı] burcu özellikleri", "[burç adı] burcu kadın erkek"
-- Danışmanlık: "astroloji danışmanlık", "doğum haritası analizi"
-
-## Teknik Notlar
-
-- YouTube API Key: `.env.local` dosyasında `NEXT_PUBLIC_YOUTUBE_API_KEY`
-- Kanal ID: `UCQPOQyi95rqf9foC4Nr2Cdg`
-- Günlük Yorumlar Playlist ID: `PL4kKxVfkjqJoha2BBocgSRNp-DhDr2bEg`
-- Haftalık Playlist'ler: `src/lib/playlist-config.ts`
-- SEO Keyword Config: `src/lib/seo-config.ts`
+## Kaynaklar
+- YouTube: https://www.youtube.com/@demet.baltaci
+- Instagram: https://www.instagram.com/demetbaltaci_
+- Udemy: https://www.udemy.com/course/astrolog-demet-baltaci-astroloji-egitimi/

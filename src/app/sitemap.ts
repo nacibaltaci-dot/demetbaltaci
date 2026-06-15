@@ -48,6 +48,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Yükselen burç hesaplama aracı (indexlenecek önemli landing sayfası)
+  const toolPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/yukselen-burc-hesaplama/`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+  ];
+
   // Statik sayfalar (duplicate kaldırıldı: temel-seviye-astroloji-egitimi -> egitim'e yönlendirilecek)
   const staticPages: MetadataRoute.Sitemap = [
     "/tum-burclar-astroloji/",
@@ -110,5 +120,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  return [...homePage, ...dailyPages, ...weeklyPages, ...monthlyPages, ...staticPages, ...zodiacPages];
+  return [...homePage, ...toolPages, ...dailyPages, ...weeklyPages, ...monthlyPages, ...staticPages, ...zodiacPages];
 }

@@ -1,5 +1,15 @@
 # DEMET BALTACI WEB SİTESİ
 
+## Deploy / Yayınlama
+Bu site STATİKtir (output: "export"). SerApp'tan FARKLIDIR:
+deploy.sh / pm2 KULLANILMAZ. Yayın yöntemi: npm run build → out/ klasörünü
+rsync ile root@64.23.250.214:/var/www/demetbaltaci/public_html/ adresine
+gönder → sunucuda izinler → Cloudflare purge.
+Tam adımlar, tuzaklar ve rollback için: docs/DEPLOY-demetbaltaci.md
+Modülün teknik detayı için: docs/MODUL-yukselen-burc.md
+Not: Sunucuya bağlanan komutlar Code içinden DEĞİL, Naci'nin Mac
+terminalinden çalıştırılır (şifre ile).
+
 ## Proje Bilgileri
 - Domain: www.demetbaltaci.com
 - Diller: Türkçe (ana) + İngilizce (/en/ dizini)

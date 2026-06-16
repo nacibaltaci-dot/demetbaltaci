@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import RisingSignCalculator from "@/components/RisingSignCalculator";
+import { RISING_DESCRIPTIONS } from "@/lib/risingSignDescriptions";
+
+// RISING_DESCRIPTIONS ile aynı sıra (SIGNS: Koç..Balık) → burç özellik sayfası slug'ı
+const ZODIAC_SLUGS = ["koc", "boga", "ikizler", "yengec", "aslan", "basak", "terazi", "akrep", "yay", "oglak", "kova", "balik"];
 
 const PAGE_URL = "https://www.demetbaltaci.com/yukselen-burc-hesaplama/";
 const WHATSAPP_NUMBER = "905076075017"; // Site genelindeki numara ile aynı
@@ -251,6 +255,46 @@ export default function YukselenBurcHesaplamaPage() {
             <span aria-hidden="true">✆</span>
             WhatsApp ile Rektifikasyon Danışmanlığı Al
           </a>
+        </section>
+
+        {/* H2: 12 Yükselen Burç — KALICI, server-side render (SEO) */}
+        <section style={cardStyle}>
+          <h2 style={h2Style}>12 Yükselen Burç ve Özellikleri</h2>
+          <p style={{ ...pStyle, marginBottom: "8px" }}>
+            Yükselenini öğrendin mi? Aşağıda her yükselen burcun genel özelliklerini bulabilirsin.
+          </p>
+          <div>
+            {RISING_DESCRIPTIONS.map((d, i) => (
+              <div key={d.tr} style={{ borderTop: "1px solid #E2E8F0", padding: "20px 0" }}>
+                <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
+                    {d.tr} Yükselen
+                  </h3>
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      color: "#1E3A8A",
+                      background: "rgba(212,175,55,0.16)",
+                      border: "1px solid rgba(212,175,55,0.4)",
+                      borderRadius: "999px",
+                      padding: "3px 10px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Yöneticisi: {d.ruler}
+                  </span>
+                </div>
+                <p style={{ color: "#475569", lineHeight: 1.75, margin: "0 0 12px" }}>{d.text}</p>
+                <Link
+                  href={`/tum-burclar-astroloji/${ZODIAC_SLUGS[i]}-burcu-ozellikleri/`}
+                  style={{ color: "#1E3A8A", fontWeight: 600, fontSize: "14px", textDecoration: "none" }}
+                >
+                  {d.tr} burcunun tüm özellikleri →
+                </Link>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* H2: SSS — görünür metin */}

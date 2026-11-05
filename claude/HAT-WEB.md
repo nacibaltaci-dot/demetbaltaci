@@ -1,0 +1,9 @@
+# HAT-WEB — Site yüzeyi: yeniden düzenleme, menü, sayfalar, modüller            son: 27 Eki 2026 · oturum: — (açılmadı) · hâl: AKTİF-SPEC (kart yok)
+AMAÇ: Siteyi Naci'nin istediği yeni düzene 1–2 günlük paketlerle, trafiği kırmadan taşımak · KANON: PLAN-WEB-1.md (yazılacak — ilk iş) · MODUL-yukselen-burc.md · CLAUDE.md (menü yapısı, renk paleti, kurallar) · RAPOR-SEO-1EKI.md §"Canlı site incelemesi"
+DURUM (belgeye göre): 8 ana menü (CLAUDE.md) · danışmanlık sayfaları var ama menüde yok · yükselen burç modülü canlı (16 Haz) · ana sayfa: hero, günlük video, yükselen kompakt, Udemy kutusu, kitaplar, Instagram/YouTube istatistikleri · 18 Haz yüzey işleri (favicon, hero fotoğraf çerçevesi, Udemy kutusu, kitaplar) canlıda ama commit'lenmemiş (OPS-1 kurtarır) · /en/ bileşenleri var (components/en) ama sayfa yok
+AÇIK İŞ PAKETİ: WEB-1 PLAN-WEB-1 YAZIMI (spec, kod yok) · kapı: Naci'nin "yeniden düzenleme" isteği hedef · sıra · tarih · kapı ile 1–2 günlük paketlere bölünmüş; her paketin GEO-SEO şartı (URL değişirse yönlendirme haritası — ANAYASA Bölüm 7) yazılı; Naci onayı · deploy: HAYIR · plan: bu paketin çıktısı planın kendisi
+SIRADAKİ 3: 1) WEB-2 ilk kod paketi (PLAN-WEB-1 sırası ne derse; aday: danışmanlık menü + sayfa yapısı — GEO-SEO-1 ADIM 1 ile çakışmasın, sahiplik: yüzey WEB, metin/SSS GEO-SEO) 2) WEB-3 Eğitimler sayfası (JS yönlendirme yerine gerçek sayfa) 3) WEB-4 hydration uyarısı + PNG→JPG (küçük teknik borçlar)
+BULGU: Ocak 2026 planındaki sayfalar (kadın/erkek, 12 ev, retrolar, tutulmalar, sözlük, blog/arşiv) hiç yapılmadı — PLAN-WEB-1'de "yap / yapma" kararı · iki ayrı "Danışmanlık Hizmetleri" sayfası aynı H1 ile
+BAĞIMLILIK: bu hat → OPS (zemin) · bu hat → GEO-SEO (URL/içerik şartları) · REKLAM → bu hat (Pixel `layout.tsx`'e girer: REKLAM kartı yazar, WEB ortak yüzey onayı verir) · ⛔ blokaj: OPS-1 (kod için); spec için yok
+SON DEPLOY: 4 Ağu 2026 (OPS doğrular) · AÇIK VAKA: yok
+OTURUM GEÇMİŞİ: — · belgeleri: docs/hat/WEB/
